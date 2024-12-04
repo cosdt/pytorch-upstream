@@ -27,5 +27,27 @@ jobs:
               "owner": "${{ github.repository_owner }}",
               "repo": "${{ github.repository }}",
               "event_name": "${{ github.event_name }}",
-              "pull_request": "${{ toJson(github.event.pull_request) }}",
+              "pull_request": {
+                "title": "${{ github.event.pull_request.title }}",
+                "base": {
+                  "ref": "${{ github.event.pull_request.base.ref }}",
+                  "repo": {
+                    "name": "${{ github.event.pull_request.base.repo.name }}",
+                    "full_name": "${{ github.event.pull_request.base.repo.full_name }}"
+                    "owner": {
+                      "login": "${{ github.event.pull_request.base.repo.owner.login }}"
+                    }
+                  }
+                },
+                "head": {
+                  "ref": "${{ github.event.pull_request.head.ref }}",
+                  "repo": {
+                    "name": "${{ github.event.pull_request.head.repo.name }}",
+                    "full_name": "${{ github.event.pull_request.head.repo.full_name }}"
+                    "owner": {
+                      "login": "${{ github.event.pull_request.head.repo.owner.login }}"
+                    }
+                  }
+                }
+              }
             }
