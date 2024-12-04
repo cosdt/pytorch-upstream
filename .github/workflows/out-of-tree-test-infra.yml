@@ -5,12 +5,16 @@ on:
 
 jobs:
   dispatch-event:
-    if: github.repository_owner == 'pytorch'
+    if: github.repository_owner == 'cosdt'
     name: Dispatch events to the out-of-tree test infra repo
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Print event info
+        run: |
+          echo "${{ toJson(github.event.pull_request) }}"
 
       - name: Create a repository dispatch event
         uses: peter-evans/repository-dispatch@v3
