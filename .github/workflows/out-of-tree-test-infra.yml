@@ -21,7 +21,7 @@ jobs:
         with:
           token: ${{ secrets.COSDT_BOT_TOKEN }}
           repository: cosdt/pytorch-integration-tests
-          event-type: pytorch-event
+          event-type: pytorch-pr-event
           client-payload: |-
             {
               "owner": "${{ github.repository_owner }}",
@@ -33,7 +33,7 @@ jobs:
                   "ref": "${{ github.event.pull_request.base.ref }}",
                   "repo": {
                     "name": "${{ github.event.pull_request.base.repo.name }}",
-                    "full_name": "${{ github.event.pull_request.base.repo.full_name }}"
+                    "full_name": "${{ github.event.pull_request.base.repo.full_name }}",
                     "owner": {
                       "login": "${{ github.event.pull_request.base.repo.owner.login }}"
                     }
@@ -43,7 +43,7 @@ jobs:
                   "ref": "${{ github.event.pull_request.head.ref }}",
                   "repo": {
                     "name": "${{ github.event.pull_request.head.repo.name }}",
-                    "full_name": "${{ github.event.pull_request.head.repo.full_name }}"
+                    "full_name": "${{ github.event.pull_request.head.repo.full_name }}",
                     "owner": {
                       "login": "${{ github.event.pull_request.head.repo.owner.login }}"
                     }
