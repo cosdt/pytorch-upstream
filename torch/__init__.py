@@ -2764,3 +2764,8 @@ def _as_tensor_fullprec(t):
         return torch.as_tensor(t, dtype=torch.int64)
     else:
         return torch.as_tensor(t)
+
+
+def dummpy_func():
+    pass
+

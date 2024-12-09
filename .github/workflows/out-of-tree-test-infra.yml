@@ -5,23 +5,49 @@ on:
 
 jobs:
   dispatch-event:
-    if: github.repository_owner == 'pytorch'
+    if: github.repository_owner == 'cosdt'
     name: Dispatch events to the out-of-tree test infra repo
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Print event info
+        run: |
+          echo "${{ toJson(github.event.pull_request) }}"
+
       - name: Create a repository dispatch event
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.COSDT_BOT_TOKEN }}
           repository: cosdt/pytorch-integration-tests
-          event-type: pytorch-event
+          event-type: pytorch-pr-event
           client-payload: |-
             {
               "owner": "${{ github.repository_owner }}",
               "repo": "${{ github.repository }}",
               "event_name": "${{ github.event_name }}",
-              "pull_request": "${{ toJson(github.event.pull_request) }}"
+              "pull_request": {
+                "title": "${{ github.event.pull_request.title }}",
+                "base": {
+                  "ref": "${{ github.event.pull_request.base.ref }}",
+                  "repo": {
+                    "name": "${{ github.event.pull_request.base.repo.name }}",
+                    "full_name": "${{ github.event.pull_request.base.repo.full_name }}",
+                    "owner": {
+                      "login": "${{ github.event.pull_request.base.repo.owner.login }}"
+                    }
+                  }
+                },
+                "head": {
+                  "ref": "${{ github.event.pull_request.head.ref }}",
+                  "repo": {
+                    "name": "${{ github.event.pull_request.head.repo.name }}",
+                    "full_name": "${{ github.event.pull_request.head.repo.full_name }}",
+                    "owner": {
+                      "login": "${{ github.event.pull_request.head.repo.owner.login }}"
+                    }
+                  }
+                }
+              }
             }
